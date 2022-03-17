@@ -10,20 +10,20 @@ router.get("/", (req, res) => {
     res.send("Hello, my name is Adil!");
 });
 
-router.get("/getAll", (req, res) => {
+router.get("/getAll", (req, res, next) => {
     Movie.find().then((results) => {
         return res.json(results);
     }).catch(err => next({status: 400, message: err.message}))
 });
 
-router.get("/get/:id", (req, res) => {
+router.get("/get/:id", (req, res, next) => {
     const id = req.params.id;
     Movie.findById(id).then((results) => {
         return res.json(results);
     }).catch(err => next({status:400, message: err.message}))
 });
 
-router.delete("/delete/:id", (req, res) => {
+router.delete("/delete/:id", (req, res, next) => {
     const id = req.params.id;
     Movie.findByIdAndDelete(id).then((results) => {
         res.status(204).send("Deleted record successfully!");
@@ -37,7 +37,7 @@ router.post("/create", (req, res, next) => {
     }).catch(err => next({status: 400, message: err.message}))    
 });
 
-router.put("/update/:id", (req, res)  => {
+router.put("/update/:id", (req, res, next)  => {
     const id = req.params.id;
     const body = req.body;
     Movie.findByIdAndUpdate(id, body).then((results) => {
